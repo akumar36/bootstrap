@@ -9,30 +9,44 @@
                     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
                     </head>
     <nav class="navbar navbar-inverse" style="margin-bottom:0px;">
-      <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          <a class="navbar-brand" href="#">My Website</a>
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">My Website</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Page 1</a></li>
+                    <li><a href="#">Page 2</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-          <li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        </ul>
-        </div>
-      </div>
     </nav>
     
     <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+            var previous = null;
+            var current = null;
+            setInterval(function() {
+                        $.getJSON("https://api.thingspeak.com/channels/925852/fields/1.json?api_key=25HDQQOCZRN1HJK5&results=1", function(json) {
+                                  current = JSON.stringify(json);
+                                  console.log(json.feeds[0].field1);
+                                  document.getElementById("progress").innerHTML = json.feeds[0].field1;
+                                  document.getElementById("progress").style.width = json.feeds[0].field1 +'%';
+                                  });
+                        }, 2000);
+            </script>
+        
         <div class="jumbotron text-center">
             <h1>My First Bootstrap Page</h1>
             <p>Resize this responsive page to see the effect!</p>
@@ -61,10 +75,10 @@
             
             <h3>Tabs</h3>
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">Menu 1</a></li>
-              <li><a href="#">Menu 2</a></li>
-              <li><a href="#">Menu 3</a></li>
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Menu 1</a></li>
+                <li><a href="#">Menu 2</a></li>
+                <li><a href="#">Menu 3</a></li>
             </ul>
             <br>
             <p><strong>Note:</strong> This example shows how to create a basic navigation tab. It is not toggleable/dynamic yet (you can't click on the links to display different content)- see the last example in the Bootstrap Tabs and Pills Tutorial to find out how this can be done.</p>
@@ -106,76 +120,132 @@
             <div class="well well-md">Basic Well</div>
             
             <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="70"
-              aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                70%
-              </div>
+                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                    70%
+                </div>
             </div>
             
             <div class="progress">
-              <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                40% Complete (success)
-              </div>
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:50%">
+                    50% Complete (success)
+                </div>
             </div>
+            To change this feed: https://api.thingspeak.com/update?api_key=JOZX8R0OT7DFPQU9&field1=50
             
             <div class="progress">
-              <div class="progress-bar progress-bar-striped active" role="progressbar"
-              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                40%
-              </div>
+                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%"  id="progress">
+                    40%
+                </div>
             </div>
             
             <div class="alert alert-success alert-dismissible fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-              <strong>Success!</strong> Indicates a successful or positive action.
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Indicates a successful or positive action.
             </div>
             
             
             <div class="page-header">
-              <h2>Buttons</h2>
+                <h2>Buttons</h2>
             </div>
             <button type="button" class="btn btn-success btn-block">Button 1</button>
             <br>
             <div class="text-center">
-            <button type="button" class="btn">Basic</button>
-            <button type="button" class="btn btn-default">Default</button>
-            <button type="button" class="btn btn-primary">Primary</button>
-            <button type="button" class="btn btn-success">Success</button>
-            <button type="button" class="btn btn-info">Info</button>
-            <button type="button" class="btn btn-warning">Warning</button>
-            <button type="button" class="btn btn-danger">Danger</button>
-            <button type="button" class="btn btn-link">Link</button>
-            <br>
-            <br>
-            <button type="button" class="btn btn-primary active">Active Primary</button>
-            <button type="button" class="btn btn-primary disabled">Disabled Primary</button>
-            <br>
-            <br>
-            
-            <ul class="breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Public</a></li>
-              <li><a href="#">First Page</a></li>
-              <li class="active">Test</li>
-            </ul>
-            <ul class="pagination">
-            <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li class="disabled"><a href="#">5</a></li>
-            </ul>
-            
-            <ul class="pager">
-              <li><a href="#">Previous</a></li>
-              <li><a href="#">Next</a></li>
-            </ul>
-            
-            <ul class="pager">
-              <li class="previous"><a href="#">Previous</a></li>
-              <li class="next"><a href="#">Next</a></li>
-            </ul>
-        </div>
-    </body>
+                <button type="button" class="btn">Basic</button>
+                <button type="button" class="btn btn-default">Default</button>
+                <button type="button" class="btn btn-primary">Primary</button>
+                <button type="button" class="btn btn-success">Success</button>
+                <button type="button" class="btn btn-info">Info</button>
+                <button type="button" class="btn btn-warning">Warning</button>
+                <button type="button" class="btn btn-danger">Danger</button>
+                <button type="button" class="btn btn-link">Link</button>
+                <br>
+                <br>
+                <button type="button" class="btn btn-primary active">Active Primary</button>
+                <button type="button" class="btn btn-primary disabled">Disabled Primary</button>
+                <br>
+                <br>
+                
+                <ul class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Public</a></li>
+                    <li><a href="#">First Page</a></li>
+                    <li class="active">Test</li>
+                </ul>
+                <ul class="pagination">
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li class="disabled"><a href="#">5</a></li>
+                </ul>
+                
+                <ul class="pager">
+                    <li><a href="#">Previous</a></li>
+                    <li><a href="#">Next</a></li>
+                </ul>
+                
+                <ul class="pager">
+                    <li class="previous"><a href="#">Previous</a></li>
+                    <li class="next"><a href="#">Next</a></li>
+                </ul>
+                
+                
+                <script>
+                window.onload = function () {
+
+                var dataPoints = [];
+
+                var options = {
+                    theme: "light2",
+                    title: {
+                        text: "Live Chart from JSON Data"
+                    },
+                    data: [{
+                        type: "spline",
+                        dataPoints: dataPoints
+                    }]
+                };
+
+                $("#chartContainer").CanvasJSChart(options);
+                updateData();
+
+                // Initial Values
+                var xValue = 0;
+                var yValue = 10;
+                var newDataCount = 6;
+
+                function addData(data) {
+                    if (newDataCount != 1) {
+                        $.each(data, function (key, value) {
+                            dataPoints.push({ x: value[0], y: parseInt(value[1]) });
+                            xValue++;
+                            yValue = parseInt(value[1]);
+                        });
+                        newDataCount = 1;
+                    } else {
+                        //dataPoints.shift();
+                        dataPoints.push({ x: data[0][0], y: parseInt(data[0][1]) });
+                        xValue++;
+                        yValue = parseInt(data[0][1]);
+                    }
+                    $("#chartContainer").CanvasJSChart().render();
+                    setTimeout(updateData, 1500);
+                }
+
+                function updateData() {
+                    $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart=" + xValue + "&ystart=" + yValue + "&length=" + newDataCount + "type=json", addData);
+                }
+
+                }
+                </script>
+                </head>
+                <body>
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+                <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+            </div>
+            </body>
 </html>
