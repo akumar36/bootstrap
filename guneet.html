@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Poker Game</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+                    </head>
+    
+    <body>
+        <script>
+            resultReason="";
+            function calculateResult(){
+                //jsonData = '{"dice1": ["J","Q","10","10","A"],"dice2":["Q","Q","K","K","K"]}';
+                jsonData = document.getElementById('inputJson').value;
+                cardsData = JSON.parse(jsonData);
+                dice1Data = cardsData.dice1;
+                dice2Data = cardsData.dice2;
+                encode(dice1Data);
+                encode(dice2Data);
+                p1Score = checkHand(dice1Data);
+                p2Score = checkHand(dice2Data);
+                if(p1Score>p2Score){
+                    result = "Player 1 wins" + resultReason;
+                }else if(p2Score>p1Score){
+                    result = "Player 2 wins" + resultReason;
+                }else{
+                    result = "Tie";
+                }
+                document.getElementById('result_label').innerHTML = result;
+                console.log(result);
+                function checkHand(hand){
+                    var resultString = "";
+                    var score=0;
+                    switch(duplicateCards(hand)){
+                         case "2":
+                              resultString = "1 Pair";
+                              score=1;
+                              break;
+                          case "22":
+                              resultString = "2 Pairs";
+                              score=2;
+                              break;
+                         case "3":
+                              resultString = "3 of a Kind";
+                              score=3;
+                              break;
+                         case "23":
+                         case "32":
+                              resultString = "Full House";
+                              score=5;
+                              break;
+                         case "4":
+                              resultString = "4 of a Kind";
+                              score=6;
+                              break;
+                         case "5":
+                              resultString = "5 of a Kind";
+                              score=7;
+                              break;
+                         default:
+                              if(isStraight(dice1Data)){
+                                   resultString = "Straight";
+                                   score=4;
+                                   if(occurrencesOf(hand,14) == 1){
+                                       resultString = "Ace Straight";
+                                   }
+                              }
+                              break;
+                    }
+                    if(!resultString){
+                         score=0;
+                         resultString = "nothing...";
+                    }
+                    //console.log(resultString+','+score);
+
+                    resultReason=" with " + resultString;
+                    return score;
+                }
+                function encode(c){
+                    c.forEach(function(item, i) {
+                              if (item == '9')  c[i] = 9;
+                              if (item == '10') c[i] = 10;
+                              if (item == 'J')  c[i] = 11;
+                              if (item == 'Q')  c[i] = 12;
+                              if (item == 'K')  c[i] = 13;
+                              if (item == 'A')  c[i] = 14;
+                              });
+                }
+                
+                function duplicateCards(valuesArray){
+                    var occurrencesFound = [];
+                    var result = "";
+                    for(var i = 0; i < valuesArray.length; i++){
+                        var occurrences = occurrencesOf(valuesArray,valuesArray[i]);
+                        if(occurrences > 1 && occurrencesFound.indexOf(valuesArray[i]) == -1){
+                            result += occurrences;
+                            occurrencesFound.push(valuesArray[i]);
+                        }
+                    }
+                    return result;
+                }
+                function occurrencesOf(valuesArray,n){
+                    var count = 0;
+                    var index = 0;
+                    do{
+                        index = valuesArray.indexOf(n, index) + 1;
+                        if(index == 0){
+                            break;
+                        }
+                        else{
+                            count ++;
+                        }
+                    } while(index < valuesArray.length);
+                    return count;
+                }
+                function isStraight(valuesArray){
+                     var lowest = getLowest(valuesArray);
+                     for(var i = 1; i < 5; i++){
+                          if(occurrencesOf(valuesArray,lowest + i) != 1){
+                               return false
+                          }
+                     }
+                     return true;
+                }
+                function getLowest(valuesArray){
+                     var min = 14;
+                     for(var i = 0; i < valuesArray.length; i++){
+                          min = Math.min(min, valuesArray[i]);
+                     }
+                     return min;
+                }
+            }
+        </script>
+        
+        <div class="jumbotron text-center">
+            <h1>Poker</h1>
+            <p>Welcome to the workd of Poker</p>
+        </div>
+        <div class="container">
+            <div class="well well-md" id="result_label">Click result</div>
+            <input class="form-control" id="inputJson" placeholder="Enter json" name="value" value="{&quot;dice1&quot;: [&quot;J&quot;,&quot;Q&quot;,&quot;10&quot;,&quot;10&quot;,&quot;A&quot;],&quot;dice2&quot;:[&quot;Q&quot;,&quot;Q&quot;,&quot;K&quot;,&quot;K&quot;,&quot;K&quot;]}">
+            <br><br><br>
+            <button type="button" onclick="calculateResult()" class="btn btn-primary btn-block">Result</button>
+            
+        </div>
+    </body>
+</html>
