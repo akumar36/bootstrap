@@ -25,7 +25,7 @@
     head.appendChild(script);
 
 }
-        getJSONP('http://soundcloud.com/oembed?url=http%3A//soundcloud.com/forss/flickermood&format=js&callback=?', function(data){
+        getJSONP('http://ec2-13-127-202-38.ap-south-1.compute.amazonaws.com:8080/all', function(data){
     console.log(data);
 });
         var $table = $('#table');
